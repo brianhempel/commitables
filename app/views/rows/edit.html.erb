@@ -1,0 +1,9 @@
+<% @page_title = "Edit Row" %>
+
+<%= form_for [@table, @row], url: { action: :update }, method: :patch do |f| %>
+  <% @row.columns.each do |col| %>
+    <%= f.label "cells_#{col.id}", col.name %>
+    <%= text_field "row[cells]", col.id, value: @row[col] %><br>
+  <% end %>
+  <%= f.submit "Update Row" %>
+<% end %>

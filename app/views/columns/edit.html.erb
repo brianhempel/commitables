@@ -1,0 +1,7 @@
+<% @page_title = "Rename Column #{@column.name}" %>
+
+<%= form_for [@table, @column], url: { action: :update }, method: :patch do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit "Rename Column" %>
+<% end %>

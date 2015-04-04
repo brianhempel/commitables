@@ -1,0 +1,10 @@
+<% @page_title = "Tables" %>
+
+<nav>
+  <%= link_to "New Table", new_table_path %>
+</nav>
+<ul>
+  <% @tables.each do |table| %>
+    <li><%= link_to table.name, table_path(table) %></li>
+  <% end %>
+</ul>

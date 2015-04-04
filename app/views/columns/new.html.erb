@@ -1,0 +1,7 @@
+<% @page_title = "New Column" %>
+
+<%= form_for [@table, @column] do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit "Add Column" %>
+<% end %>

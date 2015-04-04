@@ -1,0 +1,8 @@
+<% @page_title = "New Table" %>
+
+<%= form_for @table do |f| %>
+  <%= hidden_field_tag :head_id, params[:head_id] %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit "Create Table" %>
+<% end %>

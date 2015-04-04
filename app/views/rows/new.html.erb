@@ -1,0 +1,9 @@
+<% @page_title = "New Row" %>
+
+<%= form_for [@table, @row] do |f| %>
+  <% @row.columns.each do |col| %>
+    <%= f.label "cells_#{col.id}", col.name %>
+    <%= text_field "row[cells]", col.id, value: @row[col] %><br>
+  <% end %>
+  <%= f.submit "Add Row" %>
+<% end %>

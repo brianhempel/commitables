@@ -1,0 +1,42 @@
+<% @page_title = @table.name %>
+
+Parent: <%= link_to @table.parent_id_hex, table_path(@table.parent_id_hex) %><br>
+Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
+
+<nav>
+  <ul>
+    <% if @table.id? %>
+      <li><%= link_to "Add Column", new_table_column_path(@table) %></li>
+      <li><%= link_to "Add Row", new_table_row_path(@table) %></li>
+    <% else %>
+      <li><%= link_to "New Table From Here", new_table_path(head_id: @table.head_id_hex) %></li>
+    <% end %>
+  </ul>
+</nav>
+
+<table>
+  <tr>
+    <% @table.columns.each do |col| %>
+      <th>
+        <%= col.name %>
+        <% if @table.id? %>
+          <br><%= link_to "Rename", edit_table_column_path(@table, col.id) %>
+          <br><%= link_to "Delete", table_column_path(@table, col.id), method: :delete, data: { confirm: "Are you sure you want to delete column #{col.name}?" } %>
+        <% end %>
+      </th>
+    <% end %>
+  </tr>
+  <% @table.rows.each do |row| %>
+    <tr>
+      <% @table.columns.each do |col| %>
+        <td><%= row[col] %></td>
+      <% end %>
+      <% if @table.id? %>
+        <td>
+          <%= link_to "Edit", edit_table_row_path(@table, row.id) %> |
+          <%= link_to "Delete", table_row_path(@table, row.id), method: :delete, data: { confirm: "Are you sure you want to delete row #{row.cells.map(&:to_s).join(" ")}?" } %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @page_title %> | Commitables</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= link_to "Tables", tables_path %>
+<hr>
+<h1><%= @page_title %></h1>
+
+<% if @error %>
+  <div class="error">
+    <%= @error.message %>
+  </div>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>
