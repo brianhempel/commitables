@@ -65,14 +65,17 @@ class Table < ActiveRecord::Base
   end
 
   def column_changes
+    ActiveRecord::Associations::Preloader.new.preload(commits, :column_changes)
     commits.flat_map(&:column_changes)
   end
 
   def row_changes
+    ActiveRecord::Associations::Preloader.new.preload(commits, :row_changes)
     commits.flat_map(&:row_changes)
   end
 
   def cell_changes
+    ActiveRecord::Associations::Preloader.new.preload(commits, :cell_changes)
     commits.flat_map(&:cell_changes)
   end
 
