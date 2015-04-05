@@ -155,6 +155,27 @@ ALTER TABLE ONLY tables
 
 
 --
+-- Name: index_cell_changes_on_commit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_cell_changes_on_commit_id ON cell_changes USING btree (commit_id);
+
+
+--
+-- Name: index_column_changes_on_commit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_column_changes_on_commit_id ON column_changes USING btree (commit_id);
+
+
+--
+-- Name: index_row_changes_on_commit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_row_changes_on_commit_id ON row_changes USING btree (commit_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -178,4 +199,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150404170925');
 INSERT INTO schema_migrations (version) VALUES ('20150404195357');
 
 INSERT INTO schema_migrations (version) VALUES ('20150404203853');
+
+INSERT INTO schema_migrations (version) VALUES ('20150405030924');
 
