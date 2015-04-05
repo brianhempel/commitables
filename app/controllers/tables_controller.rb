@@ -5,6 +5,13 @@ class TablesController < ApplicationController
 
   def show
     @table = find_table
+
+    sort_column = @table.columns.find { |col| col.id == params[:sort_column_id] }
+
+    @rows = @table.rows(
+      sort_direction: params[:sort_direction],
+      sort_column:    sort_column
+    )
   end
 
   def new

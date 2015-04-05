@@ -22,6 +22,8 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
     <% columns.each do |col| %>
       <th>
         <%= col.name %>
+        <br><%= link_to "Sort Asc",  table_path(@table, sort_direction: "ascending",  sort_column_id: col.id) %>
+        <br><%= link_to "Sort Desc", table_path(@table, sort_direction: "descending", sort_column_id: col.id) %>
         <% if @table.id? %>
           <br><%= link_to "Rename", edit_table_column_path(@table, col.id) %>
           <br><%= link_to "Delete", table_column_path(@table, col.id), method: :delete, data: { confirm: "Are you sure you want to delete column #{col.name}?" } %>
@@ -29,7 +31,7 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
       </th>
     <% end %>
   </tr>
-  <% @table.rows.each do |row| %>
+  <% @rows.each do |row| %>
     <tr>
       <% columns.each do |col| %>
         <td><%= row[col] %></td>

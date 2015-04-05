@@ -3,6 +3,10 @@ class Table < ActiveRecord::Base
 
   validates :name, presence: :true
 
+  def to_param
+    id || head_id.bin_to_hex
+  end
+
   def head_id_hex
     head_id.bin_to_hex
   end
@@ -26,7 +30,7 @@ class Table < ActiveRecord::Base
     ids_to_cols.values
   end
 
-  def rows
+  def rows(sort_direction: "ascending", sort_column: nil)
     ids_to_rows = {}
 
     columns = self.columns
@@ -46,7 +50,13 @@ class Table < ActiveRecord::Base
       end
     end
 
-    ids_to_rows.values
+    sort_column ||= columns.first
+    rows = ids_to_rows.values.sort_by { |row| [row[sort_column].to_s, row.id] }
+    if sort_direction == "ascending" || sort_direction.blank?
+      rows
+    else
+      rows.reverse
+    end
   end
 
   def new_row(attrs = {})
