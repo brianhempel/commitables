@@ -29,10 +29,12 @@ class Table < ActiveRecord::Base
   def rows
     ids_to_rows = {}
 
+    columns = self.columns
+
     cell_changes.each do |change|
       case change
       when CellChange::Create, CellChange::Update
-        row = (ids_to_rows[change.row_id] ||= new_row(id: change.row_id))
+        row = (ids_to_rows[change.row_id] ||= Row.new(id: change.row_id, columns: columns, cells: {}))
         row.cells[change.column_id] = change.cell_value
       end
     end

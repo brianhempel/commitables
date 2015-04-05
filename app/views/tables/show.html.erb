@@ -14,9 +14,12 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
   </ul>
 </nav>
 
+<%# This is expensive...cache it %>
+<% columns = @table.columns %>
+
 <table>
   <tr>
-    <% @table.columns.each do |col| %>
+    <% columns.each do |col| %>
       <th>
         <%= col.name %>
         <% if @table.id? %>
@@ -28,7 +31,7 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
   </tr>
   <% @table.rows.each do |row| %>
     <tr>
-      <% @table.columns.each do |col| %>
+      <% columns.each do |col| %>
         <td><%= row[col] %></td>
       <% end %>
       <% if @table.id? %>
