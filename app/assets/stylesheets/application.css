@@ -26,6 +26,8 @@ table {
 th, td {
   padding: 3px;
   border: 2px inset #aaa;
+  max-width: 200px;
+  overflow: hidden;
 }
 
 a {
