@@ -16,6 +16,30 @@ class Commit < ActiveRecord::Base
     end
   end
 
+  # Includes the commit with the given ID
+  def self.ancestors_of_id(id)
+    all.from(<<-SQL)
+      (
+        WITH RECURSIVE ancestors_commits(id, parent_id, n) AS (
+            SELECT commits.id, commits.parent_id, 0::bigint
+              FROM commits
+              WHERE commits.id = E'\\\\x#{id.bin_to_hex}'
+          UNION ALL
+            SELECT commits.id, commits.parent_id, n-1
+              FROM ancestors_commits, commits
+              WHERE commits.id = ancestors_commits.parent_id
+              AND ancestors_commits.id != E'\\\\x0000000000000000000000000000000000000000000000000000000000000000'
+        )
+        SELECT id, parent_id, n
+        FROM ancestors_commits
+      ) commits
+    SQL
+  end
+
+  def and_ancestors
+    Commit.ancestors_of_id(self.id)
+  end
+
   concerning :DSL do
     def create!
       yield self

@@ -65,26 +65,20 @@ class Table < ActiveRecord::Base
   end
 
   def column_changes
-    ActiveRecord::Associations::Preloader.new.preload(commits, :column_changes)
-    commits.flat_map(&:column_changes)
+    commits.includes(:column_changes).flat_map(&:column_changes)
   end
 
   def row_changes
-    ActiveRecord::Associations::Preloader.new.preload(commits, :row_changes)
-    commits.flat_map(&:row_changes)
+    commits.includes(:row_changes).flat_map(&:row_changes)
   end
 
   def cell_changes
-    ActiveRecord::Associations::Preloader.new.preload(commits, :cell_changes)
-    commits.flat_map(&:cell_changes)
+    commits.includes(:cell_changes).flat_map(&:cell_changes)
   end
 
+  # Root commit appears first
   def commits
-    [head].tap do |commits|
-      until commits.last == Commit.root
-        commits.push(commits.last.parent)
-      end
-    end.reverse
+    head.and_ancestors.order(n: :asc)
   end
 
   concerning :DSL do
