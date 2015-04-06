@@ -1,7 +1,8 @@
 <% @page_title = @table.name %>
 
-Parent: <%= link_to @table.parent_id_hex, table_path(@table.parent_id_hex) %><br>
-Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
+Parent:  <%= link_to @table.parent_id_hex, table_path(@table.parent_id_hex) %><br>
+Head:    <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %><br>
+Commits: <%= link_to (@table.commits.count - 1), table_commits_path(@table) %>
 
 <nav>
   <ul>

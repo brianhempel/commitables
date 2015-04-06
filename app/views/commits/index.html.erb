@@ -1,0 +1,14 @@
+<% @page_title = "#{@table.name} History" %>
+
+<table>
+  <tr>
+    <th>n</th>
+    <th>id</th>
+  </tr>
+  <% @commits.each_with_index do |commit, i| %>
+    <tr>
+      <td><%= i %></td>
+      <td><%= link_to commit.id.bin_to_hex, table_path(commit.id.bin_to_hex) %></td>
+    </tr>
+  <% end %>
+</table>
