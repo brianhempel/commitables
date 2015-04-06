@@ -78,7 +78,7 @@ class Table < ActiveRecord::Base
 
     my_most_recent_row_ids =
       my_row_ids_with_commit_id.
-        each_slice(500).
+        each_slice(1000).
         flat_map do |chunk|
           row_ids = chunk.map(&:first).uniq
           row_id_to_most_recent_commit_id = most_recent_cell_commit_id_for_row_ids.call(row_ids)
@@ -91,7 +91,7 @@ class Table < ActiveRecord::Base
     # Remove deleted row ids
     my_most_recent_existing_row_ids =
       my_most_recent_row_ids.
-        each_slice(500).
+        each_slice(1000).
         flat_map do |row_ids_chunk|
           deleted_row_ids = row_changes.
                               reorder(nil).
@@ -104,9 +104,15 @@ class Table < ActiveRecord::Base
         end
 
     # Map row ids to full rows
+    chunk_size = if limit > 0 && limit < 1000
+      limit
+    else
+      1000
+    end
+
     rows =
       my_most_recent_existing_row_ids.
-        each_slice(500).
+        each_slice(chunk_size).
         flat_map do |row_ids_chunk|
           ids_to_rows = row_ids_chunk.zip([false]*row_ids_chunk.size).to_h
 

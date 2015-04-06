@@ -19,8 +19,8 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
 
 <% if row_count > 1500 %>
   Limit display to:
-  <% (0..(Math.log(row_count/1000,2)).to_i).each do |pow| %>
-    <% n = 1000 * 2**pow %>
+  <% (0..(Math.log(row_count/250,2)).to_i).each do |pow| %>
+    <% n = 250 * 2**pow %>
     <% if request.query_parameters[:limit] == n.to_s %>
       <%= n %>
     <% else %>
