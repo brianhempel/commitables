@@ -49,7 +49,7 @@ class Table < ActiveRecord::Base
     # Start a stream of all the row ids in order
     candidate_row_ids_with_commit_id =
       CellChange.
-        where(column_id: sort_column.id).
+        where(column_id: sort_column.try(:id)).
         order(cell_value: direction, commit_id: direction, row_id: direction).
         select(:row_id, :commit_id).
         each_hash.
