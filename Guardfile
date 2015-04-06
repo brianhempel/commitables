@@ -71,6 +71,12 @@ guard :rspec, cmd: "bundle exec rspec" do
     rspec.spec.("features/manage_#{thing}")
   end
 
+  watch(/^app\/models\/.*/) do
+    [
+      "#{rspec.spec_dir}/integration/table_reckoning_spec.rb"
+    ]
+  end
+
   watch(rails.routes) do
     [
       "#{rspec.spec_dir}/routing",
