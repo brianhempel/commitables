@@ -33,11 +33,11 @@ class Table < ActiveRecord::Base
   end
 
   def row_count
-    cell_changes.
-      where.not(
-        row_id: row_changes.where(type: "RowChange::Delete").select(:row_id)
-      ).
-      count("DISTINCT (row_id)")
+    CellChange.from(
+      "(#{cell_changes.reorder(nil).select("DISTINCT row_id").to_sql}) cell_changes"
+    ).where.not(
+      row_id: row_changes.where(type: "RowChange::Delete").select(:row_id)
+    ).count
   end
 
   def rows(sort_direction: "ascending", sort_column: nil, limit: 0)
