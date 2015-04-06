@@ -55,7 +55,7 @@ RSpec.describe "Reckoning up a table by its commits" do
     end
 
     it "starts out with none" do
-      expect(table.reload.rows).to be_empty
+      expect(table.reload.rows.to_a).to be_empty
       expect(table.row_count).to eq(0)
     end
 
@@ -92,7 +92,7 @@ RSpec.describe "Reckoning up a table by its commits" do
 
         it "defaults to sorting by the first column, asc" do
           sorted_rows = row_values
-          expect(sorted_rows).to eq([
+          expect(sorted_rows.to_a).to eq([
             ["Aaaaa", "Zzzzz"],
             ["Value 1,1", "Value 1,2"],
             ["Value 2,1", "Value 2,2"],
@@ -102,7 +102,7 @@ RSpec.describe "Reckoning up a table by its commits" do
         it "can sort by a specified column, asc" do
           col_2 = columns.last
           sorted_rows = row_values(sort_column: col_2, sort_direction: "ascending")
-          expect(sorted_rows).to eq([
+          expect(sorted_rows.to_a).to eq([
             ["Value 1,1", "Value 1,2"],
             ["Value 2,1", "Value 2,2"],
             ["Aaaaa", "Zzzzz"],
@@ -112,7 +112,7 @@ RSpec.describe "Reckoning up a table by its commits" do
         it "can sort by a specified column, desc" do
           col_2 = columns.last
           sorted_rows = row_values(sort_column: col_2, sort_direction: "descending")
-          expect(sorted_rows).to eq([
+          expect(sorted_rows.to_a).to eq([
             ["Aaaaa", "Zzzzz"],
             ["Value 2,1", "Value 2,2"],
             ["Value 1,1", "Value 1,2"],

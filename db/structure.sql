@@ -162,6 +162,20 @@ CREATE INDEX index_cell_changes_on_commit_id ON cell_changes USING btree (commit
 
 
 --
+-- Name: index_cell_changes_on_lots_of_stuff; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_cell_changes_on_lots_of_stuff ON cell_changes USING btree (column_id, cell_value, commit_id, row_id);
+
+
+--
+-- Name: index_cell_changes_on_row_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_cell_changes_on_row_id ON cell_changes USING btree (row_id);
+
+
+--
 -- Name: index_column_changes_on_commit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -201,4 +215,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150404195357');
 INSERT INTO schema_migrations (version) VALUES ('20150404203853');
 
 INSERT INTO schema_migrations (version) VALUES ('20150405030924');
+
+INSERT INTO schema_migrations (version) VALUES ('20150406045939');
+
+INSERT INTO schema_migrations (version) VALUES ('20150406065320');
 

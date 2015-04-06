@@ -11,7 +11,7 @@ class TablesController < ApplicationController
     sort_column = @table.columns.find { |col| col.id == request.query_parameters[:sort_column_id] }
 
     @rows = @table.rows(
-      sort_direction: request.query_parameters[:sort_direction],
+      sort_direction: request.query_parameters[:sort_direction] || "ascending",
       sort_column:    sort_column,
       limit:          request.query_parameters[:limit].to_i
     )
