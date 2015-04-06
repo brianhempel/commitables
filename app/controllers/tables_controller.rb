@@ -4,7 +4,7 @@ class TablesController < ApplicationController
   end
 
   def show
-    request.query_parameters[:limit] ||= "1000"
+    request.query_parameters[:limit] ||= "250"
 
     @table = find_table
 

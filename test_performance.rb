@@ -1,7 +1,7 @@
 require "benchmark"
 require "pry"
 
-REQUEST_PATH = "/tables/a150e50f-f27e-45f9-8ae6-0babac99c6b4"
+REQUEST_PATH = "/tables/a150e50f-f27e-45f9-8ae6-0babac99c6b4?limit=1000"
 
 def server_pid
   `cat tmp/pids/server.pid 2> /dev/null`.to_i
