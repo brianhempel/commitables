@@ -4,13 +4,16 @@ class TablesController < ApplicationController
   end
 
   def show
+    request.query_parameters[:limit] ||= "1000"
+
     @table = find_table
 
-    sort_column = @table.columns.find { |col| col.id == params[:sort_column_id] }
+    sort_column = @table.columns.find { |col| col.id == request.query_parameters[:sort_column_id] }
 
     @rows = @table.rows(
-      sort_direction: params[:sort_direction],
-      sort_column:    sort_column
+      sort_direction: request.query_parameters[:sort_direction],
+      sort_column:    sort_column,
+      limit:          request.query_parameters[:limit].to_i
     )
   end
 

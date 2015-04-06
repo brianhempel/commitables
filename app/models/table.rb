@@ -38,7 +38,7 @@ class Table < ActiveRecord::Base
       count("DISTINCT (row_id)")
   end
 
-  def rows(sort_direction: "ascending", sort_column: nil)
+  def rows(sort_direction: "ascending", sort_column: nil, limit: 0)
     ids_to_rows = {}
 
     columns = self.columns
@@ -60,11 +60,12 @@ class Table < ActiveRecord::Base
 
     sort_column ||= columns.first
     rows = ids_to_rows.values.sort_by { |row| [row[sort_column].to_s, row.id] }
+    limit = rows.size if limit <= 0
     if sort_direction == "ascending" || sort_direction.blank?
       rows
     else
       rows.reverse
-    end
+    end.take(limit)
   end
 
   def new_row(attrs = {})

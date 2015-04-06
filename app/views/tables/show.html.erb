@@ -15,6 +15,27 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
 </nav>
 
 <%# This is expensive...cache it %>
+<% row_count = @table.row_count %>
+
+<% if row_count > 1500 %>
+  Limit display to:
+  <% (0..(Math.log(row_count/1000,2)).to_i).each do |pow| %>
+    <% n = 1000 * 2**pow %>
+    <% if request.query_parameters[:limit] == n.to_s %>
+      <%= n %>
+    <% else %>
+      <%= link_to n, table_path(@table, request.query_parameters.merge(limit: n)) %>
+    <% end %> |
+  <% end %>
+  <% if request.query_parameters[:limit].to_i == 0 %>
+    All <%= row_count %>
+  <% else %>
+    <%= link_to "All #{row_count}", table_path(@table, request.query_parameters.merge(limit: "all")) %>
+  <% end %>
+  Rows<br><br>
+<% end %>
+
+<%# This is expensive...cache it %>
 <% columns = @table.columns %>
 
 <table>
@@ -22,8 +43,8 @@ Head:   <%= link_to @table.head_id_hex, table_path(@table.head_id_hex) %>
     <% columns.each do |col| %>
       <th>
         <%= col.name %>
-        <br><%= link_to "Sort Asc",  table_path(@table, sort_direction: "ascending",  sort_column_id: col.id) %>
-        <br><%= link_to "Sort Desc", table_path(@table, sort_direction: "descending", sort_column_id: col.id) %>
+        <br><%= link_to "Sort Asc",  table_path(@table, request.query_parameters.merge(sort_direction: "ascending",  sort_column_id: col.id)) %>
+        <br><%= link_to "Sort Desc", table_path(@table, request.query_parameters.merge(sort_direction: "descending", sort_column_id: col.id)) %>
         <% if @table.id? %>
           <br><%= link_to "Rename", edit_table_column_path(@table, col.id) %>
           <br><%= link_to "Delete", table_column_path(@table, col.id), method: :delete, data: { confirm: "Are you sure you want to delete column #{col.name}?" } %>
