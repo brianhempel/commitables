@@ -65,15 +65,15 @@ class Table < ActiveRecord::Base
   end
 
   def column_changes
-    commits.includes(:column_changes).flat_map(&:column_changes)
+    ColumnChange.joins("INNER JOIN (#{commits.to_sql}) commits ON column_changes.commit_id = commits.id").order("commits.n ASC")
   end
 
   def row_changes
-    commits.includes(:row_changes).flat_map(&:row_changes)
+    RowChange.joins("INNER JOIN (#{commits.to_sql}) commits ON row_changes.commit_id = commits.id").order("commits.n ASC")
   end
 
   def cell_changes
-    commits.includes(:cell_changes).flat_map(&:cell_changes)
+    CellChange.joins("INNER JOIN (#{commits.to_sql}) commits ON cell_changes.commit_id = commits.id").order("commits.n ASC")
   end
 
   # Root commit appears first
