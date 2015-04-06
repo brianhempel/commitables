@@ -56,6 +56,7 @@ RSpec.describe "Reckoning up a table by its commits" do
 
     it "starts out with none" do
       expect(table.reload.rows).to be_empty
+      expect(table.row_count).to eq(0)
     end
 
     context "with added rows" do
@@ -75,6 +76,7 @@ RSpec.describe "Reckoning up a table by its commits" do
       end
 
       it "works" do
+        expect(table.row_count).to eq(2)
         expect(table.rows.count).to eq(2)
         expect(row_values.sort.first).to contain_exactly("Value 1,1", "Value 1,2")
         expect(row_values.sort.last).to  contain_exactly("Value 2,1", "Value 2,2")
@@ -125,6 +127,7 @@ RSpec.describe "Reckoning up a table by its commits" do
         row.cells = row_cells
         table.update_row!(row)
 
+        expect(table.row_count).to eq(2)
         expect(table.rows.count).to eq(2)
         expect(row_values.sort.first).to contain_exactly("New Value 1,1", "New Value 1,2")
         expect(row_values.sort.last).to  contain_exactly("Value 2,1", "Value 2,2")
@@ -138,6 +141,7 @@ RSpec.describe "Reckoning up a table by its commits" do
         table.update_row!(row)
         table.delete_row!(row)
 
+        expect(table.row_count).to eq(1)
         expect(table.rows.count).to eq(1)
         expect(row_values.first).to contain_exactly("Value 2,1", "Value 2,2")
       end

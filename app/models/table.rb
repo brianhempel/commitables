@@ -30,6 +30,14 @@ class Table < ActiveRecord::Base
     ids_to_cols.values
   end
 
+  def row_count
+    cell_changes.
+      where.not(
+        row_id: row_changes.where(type: "RowChange::Delete").select(:row_id)
+      ).
+      count("DISTINCT (row_id)")
+  end
+
   def rows(sort_direction: "ascending", sort_column: nil)
     ids_to_rows = {}
 
