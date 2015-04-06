@@ -47,7 +47,7 @@ loop do
       if !type && tags["shop"]
         type = "#{tags["shop"]}_shop"
       end
-      type ||= tags["historic"] || tags["tourism"] || tags["power"] || tags["barrier"] || tags["man_made"] || tags["building"] || tags["highway"] || tags["aeroway"] || tags["office"] || tags["information"] || tags["boundary"]
+      type ||= tags["natural"] || tags["historic"] || tags["tourism"] || tags["power"] || tags["barrier"] || tags["man_made"] || tags["building"] || tags["highway"] || tags["aeroway"] || tags["office"] || tags["information"] || tags["boundary"]
       type ||= node[:tags].select { |k,v| v == "yes" }.keys.first
       website = tags["website"]
       timestamp = Time.at(node[:timestamp]/1000).utc.to_s
